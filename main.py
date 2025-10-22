@@ -64,7 +64,7 @@ def main(stdscr):
     curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_WHITE)  # Selected role color
     curses.init_pair(2, curses.COLOR_RED, curses.COLOR_BLACK)    # Special stat asterisk color
     curses.init_pair(4, curses.COLOR_WHITE, curses.COLOR_BLACK)   # Main text color
-    curses.init_pair(5, curses.COLOR_MAGENTA, curses.COLOR_BLACK)  # Specialty color
+    curses.init_pair(5, curses.COLOR_GREEN, curses.COLOR_BLACK)  # Specialty color
 
     roles = ["Face", "Muscle", "Scholar", "Slink", "Weird"]
     specialties = {
@@ -226,25 +226,27 @@ def main(stdscr):
     
     current_row = 0
     current_specialty = 0  # 0 for first specialty, 1 for second
-
+    flag = 0 #used to make XOR to create cycling of options left to right
     draw_menu(stdscr, current_row, roles, specialties, current_specialty, points)
 
     while True:
+
         key = stdscr.getch()
         if key == curses.KEY_UP and current_row > 0:
             current_row -= 1
         elif key == curses.KEY_DOWN and current_row < len(roles) - 1:
             current_row += 1
         elif key == curses.KEY_LEFT:
-            current_specialty = 0
+            flag = 1 - flag #math XOR
+            current_specialty = flag
         elif key == curses.KEY_RIGHT:
-            current_specialty = 1
+            flag = 1 - flag #math XOR
+            current_specialty = flag
         elif key == curses.KEY_ENTER or key in [10, 13]:
             break
 
         draw_menu(stdscr, current_row, roles, specialties, current_specialty, points)
 
-    # Optionally you can add more functionality here for after selection
     stdscr.clear()
     stdscr.addstr(f"You have selected {roles[current_row]} with specialty in {specialties[roles[current_row]][current_specialty]['name']}.")
     stdscr.refresh()
