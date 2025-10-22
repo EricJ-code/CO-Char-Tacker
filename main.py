@@ -226,7 +226,7 @@ def main(stdscr):
     
     current_row = 0
     current_specialty = 0  # 0 for first specialty, 1 for second
-    flag = 0 #used to make XOR to create cycling of options left to right
+    switch= 0 #used to make XOR to create cycling of options left to right
     draw_menu(stdscr, current_row, roles, specialties, current_specialty, points)
 
     while True:
@@ -237,11 +237,11 @@ def main(stdscr):
         elif key == curses.KEY_DOWN and current_row < len(roles) - 1:
             current_row += 1
         elif key == curses.KEY_LEFT:
-            flag = 1 - flag #math XOR
-            current_specialty = flag
+            switch= 1 - switch#math XOR
+            current_specialty = switch
         elif key == curses.KEY_RIGHT:
-            flag = 1 - flag #math XOR
-            current_specialty = flag
+            switch= 1 - switch#math XOR
+            current_specialty = switch
         elif key == curses.KEY_ENTER or key in [10, 13]:
             break
 
